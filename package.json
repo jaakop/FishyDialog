@@ -1,5 +1,12 @@
 {
   "name": "com.jaakkeli.fishydialog",
   "version": "0.0.1",
-  "displayName": "Fishy Dialog"	
+  "displayName": "Fishy Dialog",
+  "description": "Basic extensible dialog system for unity",
+  "unity": "2022.3",
+  "author": {
+    "name": "Jaakko Sukuvaara",
+    "email": "jaakko@kronogra.fi",
+    "url": "https://jaakop.github.io/"
+  }
 }
