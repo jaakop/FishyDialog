@@ -2,7 +2,7 @@
     "name": "DialogEditor",
     "rootNamespace": "",
     "references": [
-        "GUID:02711c3755c1a8e42abd3ca6dd221128"
+        "GUID:7d3e27e70d4263d4f97e242dd1bac25a"
     ],
     "includePlatforms": [
         "Editor"
