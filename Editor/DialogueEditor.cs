@@ -206,7 +206,7 @@ namespace Dialog
             }
             var serializedLines = serialized.FindProperty("lines");
 
-            for (int i = 0; i < selectedDialogue.dialogue.lines.Count; i++)
+            for (int i = 0; i < selectedDialogue.dialogue.lines.Count && i < serializedLines.arraySize; i++)
             {
                 var line = serializedLines.GetArrayElementAtIndex(i);
                 line.FindPropertyRelative("content").stringValue = selectedDialogue.dialogue.lines[i].content;
@@ -216,7 +216,7 @@ namespace Dialog
 
             var serializedChoices = serialized.FindProperty("choices");
 
-            for (int i = 0; i < selectedDialogue.dialogue.choices.Count; i++)
+            for (int i = 0; i < selectedDialogue.dialogue.choices.Count && i < serializedChoices.arraySize; i++)
             {
                 var choice = new SerializedObject(serializedChoices.GetArrayElementAtIndex(i).objectReferenceValue as Choice);
 
@@ -234,6 +234,7 @@ namespace Dialog
             }
 
             serialized.ApplyModifiedProperties();
+            dialogueList = LoadAssets<Dialogue>("t:Dialogue");
         }
 
         /// <summary>
@@ -249,10 +250,13 @@ namespace Dialog
 
             foreach (var dialogListItem in dialogueList)
             {
+                GUI.SetNextControlName(dialogListItem.path);
                 if (EditorGUILayout.LinkButton(dialogListItem.path))
                 {
                     Save();
+                    GUI.FocusControl(dialogListItem.path);
                     selectedDialogue = dialogListItem;
+                    serialized = new SerializedObject(dialogListItem.dialogue);
                 }
             }
 
