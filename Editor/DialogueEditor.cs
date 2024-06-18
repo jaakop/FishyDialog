@@ -299,7 +299,7 @@ namespace Dialog
         {
             EditorGUILayout.BeginHorizontal("box");
 
-            if (line.speaker?.portrait?.texture)
+            if (line.speaker != null && line.speaker.portrait != null)
                 GUILayout.Label(line.speaker.portrait.texture, GUILayout.Width(100), GUILayout.Height(100));
 
             line.speaker = EditorGUILayout.ObjectField("", line.speaker, typeof(Actor), allowSceneObjects: false) as Actor;
