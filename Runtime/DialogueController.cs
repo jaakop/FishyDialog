@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 
@@ -17,6 +18,9 @@ namespace Dialog
         private IWriter writer;
         private ISpeakerController speakerController;
         private IChoiceController choiceController;
+
+        public UnityEvent OnDialogueStart = new();
+        public UnityEvent OnDialogueEnd = new();
 
         private void Awake()
         {
@@ -56,6 +60,8 @@ namespace Dialog
 
             windowManager.ShowDialogBox();
 
+            OnDialogueStart.Invoke();
+
             foreach (var line in dialogue.lines)
             {
                 yield return ShowLineAndWaitForInput(line);
@@ -94,6 +100,7 @@ namespace Dialog
             StopAllCoroutines();
             windowManager.ToggleDialogWindow(false);
             speakerController?.UpdateSpeaker(null);
+            OnDialogueEnd.Invoke();
         }
 
         private IEnumerator ShowLineAndWaitForInput(Line line)

@@ -1,6 +1,6 @@
 {
   "name": "com.jaakkeli.fishydialog",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "displayName": "Fishy Dialog",
   "description": "Basic extensible dialog system for unity",
   "unity": "2022.3",
