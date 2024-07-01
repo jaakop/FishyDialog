@@ -5,18 +5,18 @@ namespace Dialog
 {
     public class Writer : MonoBehaviour, IWriter
     {
-        [SerializeField] private TMPro.TMP_Text textField;
+        [SerializeField] protected TMPro.TMP_Text textField;
 
-        [SerializeField] private float typingSpeedInSeconds;
+        [SerializeField] protected float typingSpeedInSeconds;
 
-        private bool skip;
+        protected bool skip;
 
-        public void SkipLine()
+        public virtual void SkipLine()
         {
             skip = true;
         }
 
-        public IEnumerator WriteByCharacter(string text)
+        public virtual IEnumerator WriteByCharacter(string text)
         {
             skip = false;
             textField.text = "";

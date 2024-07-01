@@ -7,9 +7,9 @@ namespace Dialog
     [RequireComponent(typeof(Image))]
     public class SpeakerController : MonoBehaviour, ISpeakerController
     {
-        private Image speakerImage;
+        protected Image speakerImage;
 
-        private void Awake()
+        protected virtual void Awake()
         {
             if (!TryGetComponent(out speakerImage))
             {
@@ -18,7 +18,7 @@ namespace Dialog
             }
         }
 
-        public void UpdateSpeaker(Actor actor)
+        public virtual void UpdateSpeaker(Actor actor)
         {
             if (actor == null)
             {

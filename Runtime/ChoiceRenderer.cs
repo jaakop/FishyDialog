@@ -8,10 +8,10 @@ namespace Dialog
 {
     public class ChoiceRenderer : MonoBehaviour, IChoiceRenderer
     {
-        [SerializeField] private Transform choicesHolder;
-        [SerializeField] private GameObject buttonPrefab;
+        [SerializeField] protected Transform choicesHolder;
+        [SerializeField] protected GameObject buttonPrefab;
 
-        public void RenderChoices(IEnumerable<Choice> choices, Action<Choice> callback)
+        public virtual void RenderChoices(IEnumerable<Choice> choices, Action<Choice> callback)
         {
             foreach (Transform child in choicesHolder)
             {

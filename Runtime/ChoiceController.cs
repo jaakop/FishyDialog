@@ -8,11 +8,11 @@ namespace Dialog
     [RequireComponent(typeof(IChoiceRenderer))]
     public class ChoiceController : MonoBehaviour, IChoiceController
     {
-        private IChoiceRenderer choiceRenderer;
+        protected IChoiceRenderer choiceRenderer;
 
         public Choice selectedChoice { get; private set; }
 
-        private void Awake()
+        protected virtual void Awake()
         {
             if (!TryGetComponent(out choiceRenderer))
             {
@@ -21,7 +21,7 @@ namespace Dialog
             }
         }
 
-        public void AskChoices(Dialogue dialogue)
+        public virtual void AskChoices(Dialogue dialogue)
         {
             selectedChoice = null;
             choiceRenderer.RenderChoices(dialogue.choices, (choice) =>
@@ -31,7 +31,7 @@ namespace Dialog
             });
         }
 
-        public IEnumerator WaitForSelection()
+        public virtual IEnumerator WaitForSelection()
         {
             while (!selectedChoice)
             {

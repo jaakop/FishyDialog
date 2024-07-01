@@ -7,22 +7,22 @@ namespace Dialog
 {
     public class DialogWindowManager : MonoBehaviour, IDialogWindowManager
     {
-        [SerializeField] private GameObject box;
-        [SerializeField] private GameObject dialogueBox;
-        [SerializeField] private GameObject choiceBox;
+        [SerializeField] protected GameObject box;
+        [SerializeField] protected GameObject dialogueBox;
+        [SerializeField] protected GameObject choiceBox;
 
-        public void ToggleDialogWindow(bool visible)
+        public virtual void ToggleDialogWindow(bool visible)
         {
             box.SetActive(visible);
         }
 
-        public void ShowDialogBox()
+        public virtual void ShowDialogBox()
         {
             dialogueBox.SetActive(true);
             choiceBox.SetActive(false);
         }
 
-        public void ShowChoicesBox()
+        public virtual void ShowChoicesBox()
         {
             dialogueBox.SetActive(false);
             choiceBox.SetActive(true);

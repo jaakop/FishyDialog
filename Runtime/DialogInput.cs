@@ -6,14 +6,14 @@ namespace Dialog
 {
     public class DialogInput : MonoBehaviour, IDialogInput
     {
-        [SerializeField] private KeyCode[] listenedKeys;
+        [SerializeField] protected KeyCode[] listenedKeys;
 
-        public bool GetInput()
+        public virtual bool GetInput()
         {
             return listenedKeys.Any(key => Input.GetKeyDown(key)) || Input.GetMouseButtonDown(0);
         }
 
-        public IEnumerator WaitForInput()
+        public virtual IEnumerator WaitForInput()
         {
             while (true)
             {

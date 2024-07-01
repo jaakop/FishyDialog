@@ -13,16 +13,16 @@ namespace Dialog
         typeof(IWriter))]
     public class DialogueController : MonoBehaviour, IDialogueController
     {
-        private IDialogWindowManager windowManager;
-        private IDialogInput input;
-        private IWriter writer;
-        private ISpeakerController speakerController;
-        private IChoiceController choiceController;
+        protected IDialogWindowManager windowManager;
+        protected IDialogInput input;
+        protected IWriter writer;
+        protected ISpeakerController speakerController;
+        protected IChoiceController choiceController;
 
         public UnityEvent OnDialogueStart = new();
         public UnityEvent OnDialogueEnd = new();
 
-        private void Awake()
+        protected virtual void Awake()
         {
             if (!TryGetComponent(out windowManager))
             {
@@ -46,7 +46,7 @@ namespace Dialog
             choiceController = GetComponentInChildren<IChoiceController>(true);
         }
 
-        void Update()
+        protected virtual void Update()
         {
             if (input.GetInput())
             {
@@ -54,19 +54,19 @@ namespace Dialog
             }
         }
 
-        public void StartDialogCoroutine(Dialogue dialogue)
+        public virtual void StartDialogCoroutine(Dialogue dialogue)
         {
             StartCoroutine(DialogCoroutine(dialogue));
         }
 
         [Obsolete("StartDialog method is obsolete. Use StartDialogCoroutine instead")]
-        public IEnumerator StartDialog(Dialogue dialogue)
+        public virtual IEnumerator StartDialog(Dialogue dialogue)
         {
             Debug.LogWarning("StartDialog method is obsolete. Use StartDialogCoroutine instead");
             return DialogCoroutine(dialogue);
         }
 
-        private IEnumerator DialogCoroutine(Dialogue dialogue)
+        protected virtual IEnumerator DialogCoroutine(Dialogue dialogue)
         {
             windowManager.ToggleDialogWindow(true);
 
@@ -107,7 +107,7 @@ namespace Dialog
             StartCoroutine(DialogCoroutine(selected.responseDialog));
         }
 
-        public void EndDialog()
+        public virtual void EndDialog()
         {
             StopAllCoroutines();
             windowManager.ToggleDialogWindow(false);
@@ -115,7 +115,7 @@ namespace Dialog
             OnDialogueEnd.Invoke();
         }
 
-        private IEnumerator ShowLineAndWaitForInput(Line line)
+        protected virtual IEnumerator ShowLineAndWaitForInput(Line line)
         {
             speakerController?.UpdateSpeaker(line.speaker);
 
