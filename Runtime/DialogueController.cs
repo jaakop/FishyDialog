@@ -54,7 +54,19 @@ namespace Dialog
             }
         }
 
+        public void StartDialogCoroutine(Dialogue dialogue)
+        {
+            StartCoroutine(DialogCoroutine(dialogue));
+        }
+
+        [Obsolete("StartDialog method is obsolete. Use StartDialogCoroutine instead")]
         public IEnumerator StartDialog(Dialogue dialogue)
+        {
+            Debug.LogWarning("StartDialog method is obsolete. Use StartDialogCoroutine instead");
+            return DialogCoroutine(dialogue);
+        }
+
+        private IEnumerator DialogCoroutine(Dialogue dialogue)
         {
             windowManager.ToggleDialogWindow(true);
 
@@ -92,7 +104,7 @@ namespace Dialog
                 yield break;
             }
             
-            StartCoroutine(StartDialog(selected.responseDialog));
+            StartCoroutine(DialogCoroutine(selected.responseDialog));
         }
 
         public void EndDialog()
