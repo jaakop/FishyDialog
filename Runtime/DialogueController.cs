@@ -2,8 +2,6 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Serialization;
-using UnityEngine.UI;
 
 namespace Dialog
 {
@@ -19,8 +17,8 @@ namespace Dialog
         protected ISpeakerController speakerController;
         protected IChoiceController choiceController;
 
-        public UnityEvent OnDialogueStart = new();
-        public UnityEvent OnDialogueEnd = new();
+        public UnityEvent<Dialogue> OnDialogueStart;
+        public UnityEvent<Dialogue> OnDialogueEnd;
 
         protected virtual void Awake()
         {
@@ -56,6 +54,7 @@ namespace Dialog
 
         public virtual void StartDialogCoroutine(Dialogue dialogue)
         {
+            OnDialogueStart.Invoke(dialogue);
             StartCoroutine(DialogCoroutine(dialogue));
         }
 
@@ -63,6 +62,7 @@ namespace Dialog
         public virtual IEnumerator StartDialog(Dialogue dialogue)
         {
             Debug.LogWarning("StartDialog method is obsolete. Use StartDialogCoroutine instead");
+            OnDialogueStart.Invoke(dialogue);
             return DialogCoroutine(dialogue);
         }
 
@@ -72,8 +72,6 @@ namespace Dialog
 
             windowManager.ShowDialogBox();
 
-            OnDialogueStart.Invoke();
-
             foreach (var line in dialogue.lines)
             {
                 yield return ShowLineAndWaitForInput(line);
@@ -81,7 +79,7 @@ namespace Dialog
 
             if (dialogue.choices.Count == 0 || choiceController == null)
             {
-                EndDialog();
+                EndDialog(dialogue);
                 yield break;
             }
 
@@ -100,19 +98,19 @@ namespace Dialog
 
             if (!selected.responseDialog)
             {
-                EndDialog();
+                EndDialog(dialogue);
                 yield break;
             }
             
             StartCoroutine(DialogCoroutine(selected.responseDialog));
         }
 
-        public virtual void EndDialog()
+        public virtual void EndDialog(Dialogue dialogue = null)
         {
             StopAllCoroutines();
             windowManager.ToggleDialogWindow(false);
             speakerController?.UpdateSpeaker(null);
-            OnDialogueEnd.Invoke();
+            OnDialogueEnd.Invoke(dialogue);
         }
 
         protected virtual IEnumerator ShowLineAndWaitForInput(Line line)

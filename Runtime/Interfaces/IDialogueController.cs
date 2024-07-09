@@ -22,6 +22,7 @@ namespace Dialog
         /// <summary>
         /// Ends any dialog currently on going
         /// </summary>
-        void EndDialog();
+        /// <param name="dialogue">Dialogue that ended, null if unknown</param>
+        void EndDialog(Dialogue dialogue = null);
     }
 }
